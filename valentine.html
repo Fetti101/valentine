@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️Valentine Card for mi Niña Bonita❤️</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8e1e4;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .card {
+            background-color: #943b56;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(175, 12, 165, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .card h1 {
+            color: #e91e63;
+        }
+        .card p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .card button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+        .yes {
+            background-color: #4caf50;
+            color: white;
+        }
+        .no {
+            background-color: #f44336;
+            color: white;
+        }
+        .timer {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+        @keyframes explosion {
+            from { transform: scale(1); }
+            to { transform: scale(3); opacity: 0; }
+        }
+        @keyframes fire {
+            0% { background: rgba(255, 69, 0, 0.1); }
+            50% { background: rgba(255, 0, 0, 1); }
+            100% { background: rgba(255, 69, 0, 0.1); }
+        }
+        @keyframes additionalFire {
+            0% { background: rgba(255, 140, 0, 0.1); }
+            50% { background: rgba(255, 69, 0, 1); }
+            100% { background: rgba(255, 140, 0, 0.1); }
+        }
+        @keyframes heartFall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        .explode {
+            background-color: red;
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            border-radius: 50%;
+            animation: explosion 0.5s forwards, fire 0.2s infinite, additionalFire 0.3s infinite;
+            z-index: 10;
+        }
+        .heart {
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            background: pink;
+            transform: rotate(45deg);
+            animation: heartFall 4s infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            border-radius: 50%;
+            background: pink;
+        }
+        .heart::before {
+            top: -20px;
+            left: 0;
+        }
+        .heart::after {
+            left: 20px;
+            top: 0;
+        }
+        .message {
+            font-size: 24px;
+            color: #f44336;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>❤️Happy Valentine's Day, Nikki!❤️</h1>
+        <p>❤️❤️❤️Will you be my Valentine?❤️❤️❤️</p>
+        <p class="timer">30</p>
+        <button class="yes" onclick="startHeartRain()">YES</button>
+        <button class="no" onclick="triggerExplosion()">NO</button>
+        <div id="explosion" style="display: none;"></div>
+        <video
+        src="valencia.mp4" controls playsinline></video>
+
+    </div>
+    <script>
+        let timerElement = document.querySelector('.timer');
+        let timeLeft = 30;
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft === 10) {
+                showPopup("Your time is ticking!!🕕");
+            }
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = '0';
+            }
+        }, 1000);
+
+        function showPopup(message) {
+            const popup = document.createElement('div');
+            popup.textContent = message;
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.padding = '20px';
+            popup.style.backgroundColor = '#fff';
+            popup.style.border = '2px solid #e91e63';
+            popup.style.borderRadius = '10px';
+            popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+            popup.style.zIndex = '1000';
+            document.body.appendChild(popup);
+            setTimeout(() => {
+                popup.remove();
+            }, 2000);
+        }
+
+        function triggerExplosion() {
+            let explosionElement = document.getElementById('explosion');
+            explosionElement.className = 'explode';
+            explosionElement.style.display = 'block';
+            setTimeout(() => {
+                explosionElement.style.display = 'none';
+                showPopup("Please try again");
+            }, 2000);
+        }
+
+        function createHeart() {
+            let heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.animationDuration = `${Math.random() * 2 + 3}s`;
+            document.body.appendChild(heart);
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        function startHeartRain() {
+            clearInterval(countdown);
+            setInterval(createHeart, 200);
+            document.getElementById('valentineSong').play();
+        }
+    </script>
+</body>
+</html>
